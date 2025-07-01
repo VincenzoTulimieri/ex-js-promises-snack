@@ -12,6 +12,32 @@ getPostTitle(1)
     .then(title => console.log(title))
     .catch(error => console.error(error))
 
+
+
+function getPost(id) {
+    return new Promise((resolve, reject) => {
+        fetch(`https://dummyjson.com/posts/${id}`)
+            .then(response => response.json())
+            .then(post => {
+                fetch(`https://dummyjson.com/users/${post.userId}`)
+                    .then(response=> response.json())
+                    .then(user =>{
+                        const result={
+                            ...post,
+                            user
+                        }
+                        resolve(result)
+                    })
+                    .catch(error => reject(error))
+            })
+            .catch(error => reject(error))
+    })
+}
+
+getPost(1)
+    .then(post => console.log(post))
+    .catch(error => console.error(error))
+
 // Snack 2
 
 function lanciaDado() {
